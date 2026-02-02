@@ -1,0 +1,1048 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="books.owl"
+         xmlns="books.owl#">
+
+<owl:Ontology rdf:about="books.owl"/>
+
+<owl:ObjectProperty rdf:about="#has_author">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Author"/>
+  <owl:inverseOf rdf:resource="#written_by"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#has_genre">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Genre"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#has_review">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Review"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#written_by">
+  <rdfs:domain rdf:resource="#Author"/>
+  <rdfs:range rdf:resource="#Book"/>
+  <owl:inverseOf rdf:resource="#has_author"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#reviewed_by">
+  <rdfs:domain rdf:resource="#Review"/>
+  <rdfs:range rdf:resource="#User"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#has_publisher">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Publisher"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#similar_to">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Book"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#recommends">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="#Book"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#preferred_genre">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="#Genre"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#author_name">
+  <rdfs:domain rdf:resource="#Author"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#book_title">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#isbn">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#publisher_name">
+  <rdfs:domain rdf:resource="#Publisher"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#publication_year">
+  <rdfs:domain rdf:resource="#Book"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#rating">
+  <rdfs:domain rdf:resource="#Review"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#rating_user_id">
+  <rdfs:domain rdf:resource="#Review"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#review_text">
+  <rdfs:domain rdf:resource="#Review"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#review_user_id">
+  <rdfs:domain rdf:resource="#Review"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#user_age">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#user_location">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#genre_name">
+  <rdfs:domain rdf:resource="#Genre"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#user_name">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:Class rdf:about="#Book">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Author">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Publisher">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Genre">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#User">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Review">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#book_0">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_0"/>
+  <has_author rdf:resource="#author_0"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Classical Mythology</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0195153448</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_0">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oxford University Press</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_0">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mark P. O. Morford</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_1">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_1"/>
+  <has_author rdf:resource="#author_1"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Clara Callan</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0002005018</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2001</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_1">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HarperFlamingo Canada</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_1">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Richard Bruce Wright</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_2">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_2"/>
+  <has_author rdf:resource="#author_2"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Decision in Normandy</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0060973129</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1991</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_2">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HarperPerennial</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_2">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Carlo D'Este</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_3">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_3"/>
+  <has_author rdf:resource="#author_3"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Flu: The Story of the Great Influenza Pandemic of 1918 and the Search for the Virus That Caused It</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0374157065</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_3">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Farrar Straus Giroux</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_3">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gina Bari Kolata</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_4">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_4"/>
+  <has_author rdf:resource="#author_4"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Mummies of Urumchi</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0393045218</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_4">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">W. W. Norton &amp;amp; Company</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_4">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">E. J. W. Barber</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_5">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_5"/>
+  <has_author rdf:resource="#author_5"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Kitchen God's Wife</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0399135782</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1991</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_5">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Putnam Pub Group</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_5">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Amy Tan</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_6">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_6"/>
+  <has_author rdf:resource="#author_6"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">What If?: The World's Foremost Military Historians Imagine What Might Have Been</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0425176428</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_6">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Berkley Publishing Group</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_6">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Robert Cowley</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_7">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_7"/>
+  <has_author rdf:resource="#author_7"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PLEADING GUILTY</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0671870432</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1993</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_7">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Audioworks</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_7">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scott Turow</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_8">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_8"/>
+  <has_author rdf:resource="#author_8"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Under the Black Flag: The Romance and the Reality of Life Among the Pirates</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0679425608</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1996</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_8">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Random House</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_8">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">David Cordingly</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_9">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_9"/>
+  <has_author rdf:resource="#author_9"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Where You'll Find Me: And Other Stories</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">074322678X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_9">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scribner</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_9">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ann Beattie</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_10">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_10"/>
+  <has_author rdf:resource="#author_10"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Nights Below Station Street</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0771074670</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1988</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_10">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Emblem Editions</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_10">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">David Adams Richards</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_11">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_11"/>
+  <has_author rdf:resource="#author_11"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hitler's Secret Bankers: The Myth of Swiss Neutrality During the Holocaust</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">080652121X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_11">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Citadel Press</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_11">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Adam Lebor</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_12">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_12"/>
+  <has_author rdf:resource="#author_12"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Middle Stories</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0887841740</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2004</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_12">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">House of Anansi Press</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_12">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sheila Heti</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_13">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_13"/>
+  <has_author rdf:resource="#author_13"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jane Doe</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1552041778</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_13">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mira Books</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_13">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">R. J. Kaiser</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_14">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_14"/>
+  <has_author rdf:resource="#author_14"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A Second Chicken Soup for the Woman's Soul (Chicken Soup for the Soul Series)</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1558746218</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1998</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_14">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Health Communications</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_14">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jack Canfield</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_15">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_15"/>
+  <has_author rdf:resource="#author_15"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Witchfinder (Amos Walker Mystery Series)</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1567407781</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1998</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_15">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Brilliance Audio - Trade</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_15">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Loren D. Estleman</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_16">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_16"/>
+  <has_author rdf:resource="#author_16"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">More Cunning Than Man: A Social History of Rats and Man</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1575663937</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_16">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kensington Publishing Corp.</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_16">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Robert Hendrickson</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_17">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_17"/>
+  <has_author rdf:resource="#author_17"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Goodbye to the Buttermilk Sky</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1881320189</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1994</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_17">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">River City Pub</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_17">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Julia Oliver</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_18">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_18"/>
+  <has_author rdf:resource="#author_18"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Testament</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0440234743</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_18">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dell</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_18">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">John Grisham</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_19">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_19"/>
+  <has_author rdf:resource="#author_19"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Beloved (Plume Contemporary Fiction)</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0452264464</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1994</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_19">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Plume</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_19">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Toni Morrison</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_20">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_20"/>
+  <has_author rdf:resource="#author_20"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Our Dumb Century: The Onion Presents 100 Years of Headlines from America's Finest News Source</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0609804618</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_20">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Three Rivers Press</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_20">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Onion</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_21">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_21"/>
+  <has_author rdf:resource="#author_21"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New Vegetarian: Bold and Beautiful Recipes for Every Occasion</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1841721522</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2001</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_21">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ryland Peters &amp;amp; Small Ltd</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_21">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Celia Brooks Brown</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_22">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_22"/>
+  <has_author rdf:resource="#author_22"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If I'd Known Then What I Know Now: Why Not Learn from the Mistakes of Others? : You Can't Afford to Make Them All Yourself</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1879384493</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2003</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_22">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cypress House</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_22">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">J. R. Parrish</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_23">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_23"/>
+  <has_author rdf:resource="#author_23"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mary-Kate &amp;amp; Ashley Switching Goals (Mary-Kate and Ashley Starring in)</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0061076031</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_23">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HarperEntertainment</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_23">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mary-Kate &amp;amp; Ashley Olsen</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_24">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_24"/>
+  <has_author rdf:resource="#author_24"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tell Me This Isn't Happening</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0439095026</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1999</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_24">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scholastic</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_24">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Robynn Clairday</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_25">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_25"/>
+  <has_author rdf:resource="#author_25"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Flood : Mississippi 1927</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0689821166</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1998</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_25">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Aladdin</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_25">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kathleen Duey</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_26">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_26"/>
+  <has_author rdf:resource="#author_26"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wild Animus</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0971880107</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2004</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_26">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Too Far</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_26">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rich Shapero</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_27">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_27"/>
+  <has_author rdf:resource="#author_27"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Airframe</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0345402871</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1997</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_27">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ballantine Books</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_27">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michael Crichton</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_28">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_27"/>
+  <has_author rdf:resource="#author_28"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Timeline</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0345417623</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_28">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MICHAEL CRICHTON</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_29">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_9"/>
+  <has_author rdf:resource="#author_29"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OUT OF THE SILENT PLANET</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0684823802</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1996</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_29">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">C.S. Lewis</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_30">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_28"/>
+  <has_author rdf:resource="#author_30"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prague : A Novel</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0375759778</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2003</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_28">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Random House Trade Paperbacks</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_30">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ARTHUR PHILLIPS</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_31">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_6"/>
+  <has_author rdf:resource="#author_31"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chocolate Jesus</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0425163091</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1998</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_31">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stephan Jaramillo</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_32">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_29"/>
+  <has_author rdf:resource="#author_32"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wie Barney es sieht.</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3404921038</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_29">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LÃ?Â¼bbe</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_32">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mordecai Richler</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_33">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_30"/>
+  <has_author rdf:resource="#author_33"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Der Fluch der Kaiserin. Ein Richter- Di- Roman.</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3442353866</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2001</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_30">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Goldmann</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_33">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Eleanor Cooney</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_34">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_30"/>
+  <has_author rdf:resource="#author_34"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sturmzeit. Roman.</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3442410665</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1991</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_34">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Charlotte Link</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_35">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_30"/>
+  <has_author rdf:resource="#author_35"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tage der Unschuld.</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3442446937</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_35">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Richard North Patterson</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_36">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_31"/>
+  <has_author rdf:resource="#author_36"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lying Awake</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0375406328</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_31">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alfred A. Knopf</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_36">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mark Salzman</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_37">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_32"/>
+  <has_author rdf:resource="#author_37"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To Kill a Mockingbird</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0446310786</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1988</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_32">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Little Brown &amp;amp; Company</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_37">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Harper Lee</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_38">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_27"/>
+  <has_author rdf:resource="#author_38"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Seabiscuit: An American Legend</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0449005615</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_38">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LAURA HILLENBRAND</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_39">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_33"/>
+  <has_author rdf:resource="#author_39"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pigs in Heaven</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0060168013</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1993</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_33">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Harpercollins</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_39">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Barbara Kingsolver</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_40">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_34"/>
+  <has_author rdf:resource="#author_40"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Miss Zukas and the Raven's Dance</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">038078243X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1996</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_34">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Avon</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_40">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jo Dereske</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_41">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_35"/>
+  <has_author rdf:resource="#author_41"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pride and Prejudice</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">055321215X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1983</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_35">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bantam</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_41">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jane Austen</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_42">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_36"/>
+  <has_author rdf:resource="#author_42"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Therapeutic Touch: How to Use Your Hands to Help or to Heal</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">067176537X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1979</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_36">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fireside</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_42">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dolores Krieger</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_43">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_37"/>
+  <has_author rdf:resource="#author_43"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Downtown</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0061099686</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1995</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_37">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HarperTorch</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_43">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Anne Rivers Siddons</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_44">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_38"/>
+  <has_author rdf:resource="#author_44"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Icebound</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0553582909</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2000</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_38">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bantam Books</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_44">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dean R. Koontz</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_45">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_39"/>
+  <has_author rdf:resource="#author_45"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">I'll Be Seeing You</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0671888587</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1994</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#publisher_39">
+  <rdf:type rdf:resource="#Publisher"/>
+  <publisher_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pocket</publisher_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_45">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mary Higgins Clark</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_46">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_38"/>
+  <has_author rdf:resource="#author_46"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">From the Corner of His Eye</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0553582747</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2001</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_46">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dean Koontz</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_47">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_6"/>
+  <has_author rdf:resource="#author_47"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Isle of Dogs</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0425182908</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_47">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patricia Cornwell</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_48">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_6"/>
+  <has_author rdf:resource="#author_48"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Purity in Death</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">042518630X</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2002</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_48">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">J.D. Robb</author_name>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#book_49">
+  <rdf:type rdf:resource="#Book"/>
+  <has_publisher rdf:resource="#publisher_18"/>
+  <has_author rdf:resource="#author_49"/>
+  <book_title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This Year It Will Be Different: And Other Stories</book_title>
+  <isbn rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0440223571</isbn>
+  <publication_year rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1997</publication_year>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#author_49">
+  <rdf:type rdf:resource="#Author"/>
+  <author_name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maeve Binchy</author_name>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
