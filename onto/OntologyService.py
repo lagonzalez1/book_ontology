@@ -1,10 +1,12 @@
 from owlready2 import *
-from Models.Books import ontology_classification
-from onto.OntologyBuilder import OntologyBuilder
 import pandas as pd
 from typing import Optional
 from pathlib import Path
 import logging
+from Prompts.Builder import PromptBuilder, PromptConfig
+from llm.GeminiModel import GeminiModel
+from llm.validation import QueryIntent
+from onto.WorldManager import WorldManager
 
 
 
@@ -16,9 +18,53 @@ logger = logging.getLogger(__name__)
 
 
 class OntologyService:
-
-    def __init__(self, onto):
+    """ Call ontology service to query, retrive, ... books. """
+    def __init__(self, onto=None, ontology_query_tool: Optional[any] = None):
         self.onto = onto
+        self.ontology_query_tool = ontology_query_tool
+        self.prompt_builder = PromptBuilder()
+        self.validator_class = QueryIntent
+        self.world = WorldManager.get_world()
+    
+
+    def query_with_natural_language(self, user_quesion: Optional[str] = "Find books with a publication years between 2000 and 2015"):
+        try:
+            if not self.ontology_query_tool:
+                raise Exception("Query tool not loaded, required for nlp.")
+        
+            ## logger.info(f"NLP prompt: {self.ontology_query_tool.get_ontology_schema_for_llm()}")
+            query_prompt = self.ontology_query_tool.get_ontology_schema_for_llm()
+
+            prompt_config = PromptConfig(
+                template_name="BooksTemplate",
+                model="gemini-2.5-flash",
+                system_prompt=query_prompt,
+                variables={
+                    "ontology_schema": query_prompt,
+                    "user_question": user_quesion,
+                },
+                max_tokens=10000,
+                temperature=0.2,
+            )
+            prompt_data = self.prompt_builder.build(prompt_config)
+
+            model = GeminiModel(self.validator_class, prompt_data)
+            llm_response = model._invoke_model()
+
+            logger.info(f"Model invoked results: {llm_response.items()}")
+
+            query = self.ontology_query_tool._build_sparql_from_intent(llm_response)
+            
+            logger.info(f"Query build from intent: {query}")
+
+            result = self.ontology_query_tool._execute_sparql(query)
+
+            logger.info(f"Ontology _execute_sparql:  {result}")
+
+        except Exception as e:
+            logger.error("unable to query with natural language")
+            raise 
+        
 
     def _extract_book_info(self, book) -> Optional[dict]:
         """Extract information from a book instance"""

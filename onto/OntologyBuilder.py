@@ -1,6 +1,7 @@
 from owlready2 import *
 from Models.Books import ontology_classification
 import pandas as pd
+from onto.WorldManager import WorldManager
 from typing import Optional
 from pathlib import Path
 import logging
@@ -16,8 +17,8 @@ logger = logging.getLogger(__name__)
 class OntologyBuilder:
 	def __init__(self, path: Optional[str] = None ):
 		self.path = path
+		self.world = WorldManager.reset_world()
 		self.onto = None
-		self.world = World()
 		
 	def create_ontology_from_book_data(self, books: Optional[pd.DataFrame] = None)->bool:
 		""" Create ontology from books.csv """
@@ -41,11 +42,14 @@ class OntologyBuilder:
 					## Create the book 
 					book = self.onto.Book(book_id)
 					if pd.notna(row.get("Book-Title")):
-						book.book_title = [row.get("Book-Title")]
-					if pd.notna(row.get("ISBN")):
-						book.isbn = [row.get("ISBN")]
-					if pd.notna(row.get("Year-Of-Publication")):
-						book.publication_year = [row.get("Year-Of-Publication")]
+						book.book_title = [str(row.get("Book-Title"))]
+					
+					isbn = row.get("ISBN")
+					if pd.notna(isbn):
+						book.isbn = [int(isbn)]
+					year_raw = row.get("Year-Of-Publication")
+					if pd.notna(year_raw):
+						book.publication_year = [int(float(year_raw))]
 					if pd.notna(row.get("Publisher")):
 						pub_name = str(row.get("Publisher")).strip()
 						if pub_name:
@@ -77,7 +81,7 @@ class OntologyBuilder:
 		return True
 	
 
-
+	""" This should also return the instance of the world, but not being used atm"""
 	def load_ontology_from_dir(self):
 		""" Get existing ontology or create a new one"""
 		try:

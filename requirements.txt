@@ -1,0 +1,5 @@
+python-dotenv
+google-genai
+pydantic
+jinja2
+owlready2
