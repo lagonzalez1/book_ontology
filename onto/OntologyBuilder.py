@@ -21,64 +21,68 @@ class OntologyBuilder:
 		self.onto = None
 		
 	def create_ontology_from_book_data(self, books: Optional[pd.DataFrame] = None)->bool:
-		""" Create ontology from books.csv """
-		self.onto = ontology_classification(self.path)
+		try:
+			""" Create ontology from books.csv """
+			self.onto = ontology_classification(self.path)
 
-		if not self.onto:
-			logger.error("unable to get ontology model")
-			return False
+			if not self.onto:
+				logger.error("unable to get ontology model")
+				raise
 
-		author_cache = {}
-		publisher_cache = {}
+			author_cache = {}
+			publisher_cache = {}
 
-		with self.onto:
-			logger.info("Ontology model found")
-			if books.empty:
-				return False
-			
-			for idx, row in books.iterrows():
-				try:
-					book_id = f"book_{idx}"
-					## Create the book 
-					book = self.onto.Book(book_id)
-					if pd.notna(row.get("Book-Title")):
-						book.book_title = [str(row.get("Book-Title"))]
-					
-					isbn = row.get("ISBN")
-					if pd.notna(isbn):
-						book.isbn = [int(isbn)]
-					year_raw = row.get("Year-Of-Publication")
-					if pd.notna(year_raw):
-						book.publication_year = [int(float(year_raw))]
-					if pd.notna(row.get("Publisher")):
-						pub_name = str(row.get("Publisher")).strip()
-						if pub_name:
-							if pub_name not in publisher_cache:
-								## Create a pub_id to 
-								pub_id = f"publisher_{len(publisher_cache)}"
-								publisher = self.onto.Publisher(pub_id)
-								publisher.publisher_name = [pub_name]
-								publisher_cache[pub_name] = publisher
+			with self.onto:
+				logger.info("Ontology model found")
+				if books.empty:
+					return False
+				
+				for idx, row in books.iterrows():
+					try:
+						book_id = f"book_{idx}"
+						## Create the book 
+						book = self.onto.Book(book_id)
+						if pd.notna(row.get("Book-Title")):
+							book.book_title = [str(row.get("Book-Title"))]
+						
+						isbn = row.get("ISBN")
+						if pd.notna(isbn):
+							book.isbn = [int(isbn)]
+						year_raw = row.get("Year-Of-Publication")
+						if pd.notna(year_raw):
+							book.publication_year = [int(float(year_raw))]
+						if pd.notna(row.get("Publisher")):
+							pub_name = str(row.get("Publisher")).strip()
+							if pub_name:
+								if pub_name not in publisher_cache:
+									## Create a pub_id to 
+									pub_id = f"publisher_{len(publisher_cache)}"
+									publisher = self.onto.Publisher(pub_id)
+									publisher.publisher_name = [pub_name]
+									publisher_cache[pub_name] = publisher
 
-							book.has_publisher = [publisher_cache[pub_name]]
+								book.has_publisher = [publisher_cache[pub_name]]
 
-					if pd.notna(row.get("Book-Author")):
-						auth_name = str(row.get("Book-Author")).strip()
-						if auth_name:
-							if auth_name not in author_cache:
-								auth_id = f"author_{len(author_cache)}"
-								author = self.onto.Author(auth_id)
-								author.author_name = [auth_name]
-								author_cache[auth_name] = author
-							
-							book.has_author = [author_cache[auth_name]]
-				except Exception as e:
-					logger.warning(f"Error adding book {idx}: {e}")
-					continue
+						if pd.notna(row.get("Book-Author")):
+							auth_name = str(row.get("Book-Author")).strip()
+							if auth_name:
+								if auth_name not in author_cache:
+									auth_id = f"author_{len(author_cache)}"
+									author = self.onto.Author(auth_id)
+									author.author_name = [auth_name]
+									author_cache[auth_name] = author
+								
+								book.has_author = [author_cache[auth_name]]
+					except Exception as e:
+						logger.warning(f"Error adding book {idx}: {e}")
+						continue
 
-		self.save_ontology()
+			self.save_ontology()
 
-		return True
+			return True
+		except Exception as e:
+			logger.error(f"[create_ontology_from_book_data] error found: {e}")
+			raise
 	
 
 	""" This should also return the instance of the world, but not being used atm"""
@@ -94,7 +98,7 @@ class OntologyBuilder:
 				return get_ontology(f"{pt}/books").load()
 						
 		except Exception as e:
-			logger.error(f"Failed to get/create ontology: {e}")
+			logger.error(f"[load_ontology_from_dir] Failed to get/create ontology: {e}")
 			return None
 
 

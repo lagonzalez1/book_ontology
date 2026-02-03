@@ -40,6 +40,7 @@ class OntologyQuery:
         
         if query_type == "search_books":
             return self._build_book_search_sparql(query_intent)
+        ## will create more query_types
         
 
     def _build_book_search_sparql(self, query_intent: dict) -> str:
@@ -167,7 +168,7 @@ class OntologyQuery:
             return formatted_results
             
         except Exception as e:
-            logger.error(f"Error executing SPARQL query: {e}")
+            logger.error(f"[_execute_sparql] error: {e}") 
             logger.debug(f"Query was: {sparql_query}")
             return []
 
@@ -232,5 +233,5 @@ class OntologyQuery:
             return "\n".join(schema_info)
             
         except Exception as e:
-            logger.error(f"Error getting ontology schema: {e}")
+            logger.error(f"[get_ontology_schema_for_llm] error: {e}")
             return f"Error: {str(e)}"

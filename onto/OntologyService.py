@@ -62,7 +62,7 @@ class OntologyService:
             logger.info(f"Ontology _execute_sparql:  {result}")
 
         except Exception as e:
-            logger.error("unable to query with natural language")
+            logger.error(f"[query_with_natural_language] error: {e}") 
             raise 
         
 
