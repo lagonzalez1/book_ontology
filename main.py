@@ -1,19 +1,14 @@
 import logging
-from pydantic import BaseModel
 from onto.OntologyBuilder import OntologyBuilder
 from onto.OntologyService import OntologyService
 from onto.OntologyQuery import OntologyQuery
 from KaggleData.ProcessData import ProcessData
-from llm.GeminiModel import GeminiModel
 
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
-"""
-	Lets create a book recomendation system using ontology, and process request via natural language.
-"""
-
+""" Lets create a book recomendation system using ontology, and process request via natural language """
 def main():
 	try:
 		""" Parse all the data in kaggle folder"""

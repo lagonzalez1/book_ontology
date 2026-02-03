@@ -8,8 +8,6 @@ from llm.GeminiModel import GeminiModel
 from llm.validation import QueryIntent
 from onto.WorldManager import WorldManager
 
-
-
 pt = Path(__file__).parent.parent
 
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')

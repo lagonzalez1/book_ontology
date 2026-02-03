@@ -1,7 +1,5 @@
 import logging
 from owlready2 import *
-from typing import List, Optional, Dict, Any
-import random
 from datetime import datetime
 
 

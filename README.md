@@ -24,11 +24,12 @@ Type Safety: Pydantic validation for all query intents and responses
 
 1. git clone this repo
 2. create venv (recomended)
-3. pip install -r requirements.txt
-4. TBD Make file on the way
+3. sh pip install -r requirements.txt
+4. TBD Makefile on the way
 
 
 # Architecture
+```bash
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Natural       │    │      LLM        │    │   Query         │
 │   Language      │────▶   (Gemini)      │────▶   Intent        │
@@ -41,10 +42,10 @@ Type Safety: Pydantic validation for all query intents and responses
 │   Formatter     │◀───│   Query         │◀───│   Ontology      │
 │                 │    │   Generator     │    │   (OWLReady2)   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-
+```
 
 # To do
-1. Complete the ontology to include all csv file attributes.
+1. Complete the ontology to include all csv files attributes.
 2. Linking to the World (DBpedia/Wikidata)
     - Instead of just a name string
     - jk_rowling = self.onto.Author("author_jk_rowling")
@@ -54,4 +55,4 @@ Type Safety: Pydantic validation for all query intents and responses
     - jk_rowling.comment = ["https://dbpedia.org/resource/J._K._Rowling"]
     - ThenThe "Simple" Federated Query
 
-3. Accept user input
+3. Accept user input on terminal
