@@ -36,13 +36,13 @@ class ProcessData:
     def load_ratings_data(self) ->pd.DataFrame:
         """ Load data from kaggle_data path """
         try:
-            path = str("/ratings.csv")
+            path = Path(__file__).parent / str("./ratings.csv")
             # Try different encodings
             encodings = ['utf-8', 'latin-1', 'iso-8859-1', 'cp1252']
             for encoding in encodings:
                 try:
                     df = pd.read_csv(path, sep= ';', encoding=encoding, on_bad_lines='skip')
-                    logger.info(f"Successfully loaded with {encoding} encoding")
+                    logger.info(f"Successfully loaded ratings with {encoding} encoding")
                     return df
                 except UnicodeDecodeError:
                     continue
@@ -56,7 +56,7 @@ class ProcessData:
 
     def load_users_data(self) ->pd.DataFrame:
         """ Load data from kaggle_data path """
-        path = str("users.csv")
+        path = Path(__file__).parent / str("./users.csv")
         logger.info("Checking path to open csv", path)
         try:
             # Try different encodings

@@ -1,5 +1,11 @@
 .env
 ~./env
-
+books.owl
 ~./__pycache__
 ~./KaggleData
+~./venv
+./venv
+.venv
+.DS_Store
+/KaggleData
+KaggleData

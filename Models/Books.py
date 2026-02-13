@@ -97,10 +97,6 @@ def ontology_classification(url: str):
 			domain = [Review]
 			range = [int]
 
-		class rating_user_id(DataProperty):
-			domain = [Review]
-			range = [int]
-
 		class review_text(DataProperty):
 			domain = [Review]
 			range = [str]

@@ -3,3 +3,6 @@ google-genai
 pydantic
 jinja2
 owlready2
+networkx
+matplotlib
+scipy

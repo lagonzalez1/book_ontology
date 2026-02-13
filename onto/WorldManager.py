@@ -1,4 +1,3 @@
-# world_manager.py
 from owlready2 import World, get_ontology, default_world
 import logging
 

@@ -13,8 +13,6 @@ pt = Path(__file__).parent.parent
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
-
 class OntologyService:
     """ Call ontology service to query, retrive, ... books. """
     def __init__(self, onto=None, ontology_query_tool: Optional[any] = None):
@@ -24,7 +22,6 @@ class OntologyService:
         self.validator_class = QueryIntent
         self.world = WorldManager.get_world()
     
-
     def query_with_natural_language(self, user_quesion: Optional[str] = "Find books with a publication years between 2000 and 2015"):
         try:
             if not self.ontology_query_tool:
