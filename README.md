@@ -56,3 +56,8 @@ Type Safety: Pydantic validation for all query intents and responses
     - ThenThe "Simple" Federated Query
 
 3. Accept user input on terminal
+
+
+# Check it out
+Sample size of about 50 nodes
+![Ontology preview](assests/images/onto_preview.png)
