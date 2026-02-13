@@ -60,4 +60,4 @@ Type Safety: Pydantic validation for all query intents and responses
 
 # Check it out
 Sample size of about 50 nodes
-![Ontology preview](assests/images/onto_preview.png)
+![Ontology preview](assets/images/onto_preview.png)
