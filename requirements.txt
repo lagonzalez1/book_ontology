@@ -6,3 +6,4 @@ owlready2
 networkx
 matplotlib
 scipy
+pandas

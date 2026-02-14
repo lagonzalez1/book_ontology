@@ -9,3 +9,5 @@ books.owl
 .DS_Store
 /KaggleData
 KaggleData
+./books.owl
+~/ontology

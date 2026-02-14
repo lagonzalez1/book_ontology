@@ -13,11 +13,6 @@ path = Path(__file__).parent
 
 def interactive_menu(onto):
 	"""Main interactive menu"""
-	if onto is None:
-		logger.error("[MAIN] ontology not loaded ?")
-	if not hasattr(onto, 'Book'):
-		logger.info("\n❌ Ontology loaded but missing 'Book' class.")
-		logger.info(f"   Available classes: {[c for c in dir(onto) if not c.startswith('_') and c[0].isupper()]}")
 	viz = OntologyVisualizer(onto)
 	query_tool = OntologyQuery(onto)
 	service = OntologyService(onto, query_tool)
@@ -25,7 +20,7 @@ def interactive_menu(onto):
 		print("\n" + "="*60)
 		print("ONTOLOGY INTERACTIVE SHELL")
 		print("="*60)
-		print("\n1. View ontology graph")
+		print("\n1. View ontology graph, will be downloaded to path.")
 		print("2. Natural Language Query")
 		print("0. Exit")
 		
@@ -36,8 +31,8 @@ def interactive_menu(onto):
 			break
 		elif choice == '1':
 			""" Visualize the model"""
-			viz.create_basic_graph(max_nodes=50)
-			viz.visualize()
+			max_nodes = input("\n Max number of nodes? ").strip()
+			viz.interactive_visualize(max_nodes=int(max_nodes))
 		elif choice == '2':
 			""" Query-tool for llm models """
 			""" Service layer to pull and use data from onto """
@@ -56,22 +51,31 @@ def main():
 		
 		""" If ontology exist start the interactive window. """
 		onto_builder = OntologyBuilder(path="books.owl")
-		
+
+		if onto_builder.load_ontology_from_dir():
+			logger.info(f"Ontology stats: {onto_builder.ontology_stats()}")
+			logger.info(f"[MAIN] Ontology WORLD: {id(onto_builder.onto.world)}")
+			interactive_menu(onto_builder.onto)
+			return
+		else:
+			return
 		""" Create data into ontology, sample size of 200 just for performance """
-		is_created = onto_builder.create_ontology_from_book_data(books.head(1000))
+		is_created = onto_builder.create_ontology_from_book_data(books)
 		if not is_created:
 			logger.info(f"[MAIN]create_ontology_from_book_data")
 		
 		ratings = data.load_ratings_data()
-		is_ratings_added = onto_builder.load_ratings_data(ratings.head(1000))
+		is_ratings_added = onto_builder.load_ratings_data(ratings)
 		if not is_ratings_added:
 			logger.info(f"[MAIN] Unable to process ratings.csv")
 
 		users = data.load_users_data()
-		is_user_added = onto_builder.load_user_data(users.head(1000))
+		is_user_added = onto_builder.load_user_data(users)
 		if not is_user_added:
 			logger.info(f"[MAIN] Unable to process users.csv")
 
+		logger.info(f"Ontology stats: {onto_builder.ontology_stats()}")
+		logger.info(f"[MAIN] Ontology WORLD: {id(onto_builder.onto.world)}")
 		interactive_menu(onto_builder.onto)
 	
 	except Exception as e:

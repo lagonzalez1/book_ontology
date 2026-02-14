@@ -18,14 +18,20 @@ Type Safety: Pydantic validation for all query intents and responses
 # Prerequisites
 
 1. Python 3.8+
-2. Google Gemini API key
+2. Google Gemini API key!
+3. .env -> GEMINI_API_KEY="skfj_...api KEY"
 
 # Getting Started
 
 1. git clone this repo
-2. create venv (recomended)
-3. sh pip install -r requirements.txt
-4. TBD Makefile on the way
+2. create venv (recomended) - python3 -v venv
+3. activate venv - source venv/bin/activate
+4. sh - pip install -r requirements.txt
+5. Note: Loading the entire ontology with the data provided, this encludes about 221k unique values, users 278K ... 
+    Loading this might take a while.
+    Alternatively, you can alter the dataframe using .head(NUM_OF_ROWS) to the following variable in __main__
+    books, ratings, users. 
+6. Interactive shell 
 
 
 # Architecture
@@ -58,6 +64,14 @@ Type Safety: Pydantic validation for all query intents and responses
 3. Accept user input on terminal
 
 
-# Check it out
+# A few examples of the ontology loaded. 
+
+50 nodes max, full dataset ontology.
+Note the various reviews for books.
+![Ontology preview](ontology_graph_basic.png)
+
+Full ontology, with 50 nodes
+![Ontology preview](ontology_graph_kamada.png)
+
 Sample size of about 50 nodes
 ![Ontology preview](assets/images/onto_preview.png)

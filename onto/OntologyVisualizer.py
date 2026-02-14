@@ -22,11 +22,25 @@ class OntologyVisualizer:
         self.onto = onto
         self.graph = nx.Graph()
         self.world = WorldManager.get_world()
+        self.colormap = {
+            'book': '#4C72B0',      # Blue
+            'author': '#DD8452',     # Orange
+            'publisher': '#55A868',   # Green
+            'user': '#C44E52',        # Red
+            'review': '#937860',      # Brown
+            'other': '#8172B2'        # Purple
+        }
     
     """ Visualize demo ontology"""
     def create_basic_graph(self, max_nodes: Optional[int] = 100) -> None:
         # Add books as nodes
-        for book in list(self.onto.Book.instances())[:max_nodes//3]:
+        book_class = None
+        all_classes = list(self.onto.classes())
+        for cls in all_classes:
+            if cls.name == "Book":
+                book_class = cls
+                break
+        for book in list(book_class.instances())[:max_nodes//3]:
             
             # Book title
             book_title = book.book_title[0] if hasattr(book, 'book_title') and book.book_title else book.name
@@ -82,9 +96,200 @@ class OntologyVisualizer:
                     self.graph.add_edge(book.name, review.name, relation="reviewed_by")
         
         return self.graph
-        # Add Review as linkaes to Books
 
-    def visualize(self, figsize=(15, 10)):
+
+    def visualize_spring(self, figsize=(15, 10), k=2, iterations=50, max_nodes: int = 50):
+        if len(self.graph.nodes) == 0:
+            self.create_basic_graph()
+        
+        plt.figure(figsize=figsize)
+        
+        # SPRING LAYOUT - Classic force-directed
+        pos = nx.spring_layout(self.graph, k=k, iterations=iterations, seed=42)
+        
+        # Draw the graph
+        self._draw_graph(pos, "Book Ontology - Spring Layout (Force-Directed)")
+        
+        plt.savefig('ontology_graph_spring.png', dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        return self.graph
+    
+    def visualize_kamada_kawai(self, figsize=(15, 10), max_nodes: int = 50):
+        if len(self.graph.nodes) == 0:
+            self.create_basic_graph(max_nodes)
+        
+        plt.figure(figsize=figsize)
+        
+        # KAMADA-KAWAI LAYOUT - Energy-based, often cleaner than spring
+        pos = nx.kamada_kawai_layout(self.graph)
+        
+        # Draw the graph
+        self._draw_graph(pos, "Book Ontology - Kamada-Kawai Layout")
+        
+        plt.savefig('ontology_graph_kamada.png', dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        return self.graph
+    
+    def visualize_shell(self, figsize=(14, 10), max_nodes: int = 50):
+        if len(self.graph.nodes) == 0:
+            self.create_basic_graph()
+        
+        plt.figure(figsize=figsize)
+        
+        # Group nodes by type for shells
+        books = [n for n in self.graph.nodes if self.graph.nodes[n].get('type') == 'book']
+        authors = [n for n in self.graph.nodes if self.graph.nodes[n].get('type') == 'author']
+        publishers = [n for n in self.graph.nodes if self.graph.nodes[n].get('type') == 'publisher']
+        others = [n for n in self.graph.nodes if n not in books + authors + publishers]
+        
+        # Create shells (books in center, then authors, then publishers/others)
+        shells = []
+        if books:
+            shells.append(books)
+        if authors:
+            shells.append(authors)
+        if publishers or others:
+            shells.append(publishers + others)
+        
+        # SHELL LAYOUT - Concentric circles
+        pos = nx.shell_layout(self.graph, nlist=shells if shells else None)
+        
+        # Draw the graph
+        self._draw_graph(pos, "Book Ontology - Shell Layout (Hierarchical)")
+        
+        plt.savefig('ontology_graph_shell.png', dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        return self.graph
+    
+    def visualize_random(self, figsize=(14, 10), seed=42, max_nodes: int = 50):
+        """
+        Random layout - Nodes placed randomly.
+        Best for: Quick preview, no structure implied
+        """
+        if len(self.graph.nodes) == 0:
+            self.create_basic_graph()
+        
+        plt.figure(figsize=figsize)
+        
+        # RANDOM LAYOUT
+        pos = nx.random_layout(self.graph, seed=seed)
+        
+        # Draw the graph
+        self._draw_graph(pos, "Book Ontology - Random Layout")
+        
+        plt.savefig('ontology_graph_random.png', dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        return self.graph
+    
+    def _draw_graph(self, pos, title, max_nodes: int = 50):
+        """Core drawing function used by all layouts"""
+        
+        # Draw edges
+        nx.draw_networkx_edges(self.graph, pos,
+                             edge_color='gray',
+                             alpha=0.5,
+                             width=1,
+                             arrows=True,
+                             arrowstyle='->',
+                             arrowsize=10)
+        
+        # Draw nodes by type
+        node_types = {}
+        for node in self.graph.nodes:
+            node_type = self.graph.nodes[node].get('type', 'other')
+            if node_type not in node_types:
+                node_types[node_type] = []
+            node_types[node_type].append(node)
+        
+        # Draw each node type with its color
+        for node_type, nodes in node_types.items():
+            if nodes:
+                color = self.colormap.get(node_type, self.colormap['other'])
+                
+                # Different sizes for different types
+                if node_type == 'book':
+                    size = 1500
+                elif node_type == 'author':
+                    size = 1000
+                elif node_type == 'publisher':
+                    size = 800
+                elif node_type == 'user':
+                    size = 600
+                else:
+                    size = 500
+                
+                nx.draw_networkx_nodes(self.graph, pos,
+                                     nodelist=nodes,
+                                     node_color=color,
+                                     node_size=size,
+                                     alpha=0.8,
+                                     label=f'{node_type.capitalize()}s ({len(nodes)})')
+        
+        # Draw labels
+        labels = {node: self.graph.nodes[node].get('label', node[:10]) 
+                 for node in self.graph.nodes}
+        nx.draw_networkx_labels(self.graph, pos, labels, font_size=8)
+        
+        plt.title(title, fontsize=16, fontweight='bold')
+        plt.legend(scatterpoints=1, fontsize=10, loc='upper left')
+        plt.axis('off')
+        plt.tight_layout()
+    
+    def visualize_all(self, save_prefix="ontology_graph"):
+        """Generate all graph types for comparison"""
+        
+        layouts = [
+            (self.visualize_spring, "spring", "Spring Layout"),
+            (self.visualize_kamada_kawai, "kamada", "Kamada-Kawai Layout"),
+            (self.visualize_shell, "shell", "Shell Layout"),
+            (self.visualize_random, "random", "Random Layout")
+        ]
+        
+        print("\n" + "="*60)
+        print("📊 GENERATING ALL GRAPH TYPES")
+        print("="*60)
+        
+        for viz_func, name, description in layouts:
+            print(f"\n🔄 Generating {description}...")
+            try:
+                viz_func()
+                print(f"   ✅ Saved as {save_prefix}_{name}.png")
+            except Exception as e:
+                print(f"   ❌ Failed: {e}")
+    
+    def interactive_visualize(self, figsize=(15,10), max_nodes=100):
+        """Interactive menu to choose visualization type"""
+        
+        print("\n" + "="*60)
+        print("ONTOLOGY GRAPH VISUALIZATION")
+        print("="*60)
+        print("\nChoose layout type:")
+        print("1. Spring (Force-directed) - Shows clusters")
+        print("2. Kamada-Kawai - Distance-based, cleaner")
+        print("3. Shell - Hierarchical (books in center)")
+        print("4. Random - No structure")
+        print("5. All layouts")
+        print("0. Cancel")
+        
+        choice = input("\nEnter choice (0-5): ").strip()
+        
+        if choice == '1':
+            self.visualize_spring(max_nodes=max_nodes)
+        elif choice == '2':
+            self.visualize_kamada_kawai(max_nodes=max_nodes)
+        elif choice == '3':
+            self.visualize_shell(max_nodes=max_nodes)
+        elif choice == '4':
+            self.visualize_random(max_nodes=max_nodes)
+        elif choice == '5':
+            self.visualize_all()
+        else:
+            print("❌ Cancelled")
+
         if len(self.graph.nodes) == 0:
             self.create_basic_graph()
         

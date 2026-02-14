@@ -105,7 +105,7 @@ class OntologyQuery:
             where_clause += "\n        " + "\n        ".join(filters)
         
         sparql = f"""
-        PREFIX onto: <{self.onto.base_iri}>
+        PREFIX onto: <{f"books.owl/books.owl#"}>
         SELECT DISTINCT {" ".join(select_vars)} WHERE {{
             {where_clause}
         }}
@@ -148,9 +148,7 @@ class OntologyQuery:
     
     def _execute_sparql(self, sparql_query: str) -> list:
         """Execute SPARQL query against the ontology"""
-        try:
-            ## from owlready2 import default_world
-            
+        try:            
             # Execute the query
             results = list(self.world.sparql(sparql_query, error_on_undefined_entities=False))
             

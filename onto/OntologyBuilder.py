@@ -34,15 +34,31 @@ class OntologyBuilder:
 		chars = string.ascii_letters + string.digits
 		return ''.join(random.choice(chars) for i in range(length))
 	
+	def create_book_id(self, isbn: str) -> str:
+		"""
+		Create a consistent, XML-safe ID from ISBN.
+		The ID is deterministic (same ISBN = same ID)
+		and can be used across all data sources.
+		"""
+		if pd.isna(isbn):
+			return None
+		
+		isbn_str = str(isbn).strip()
+		
+		# Option 1: Base64 encoding (most compact)
+		import base64
+		encoded = base64.b64encode(isbn_str.encode()).decode()
+		# Replace base64 chars that might cause issues
+		encoded = encoded.replace('+', '-').replace('/', '_').replace('=', '')
+		return f"book_{encoded}"
+	
 	""" Load initially the data from books csv"""		
 	def create_ontology_from_book_data(self, books: Optional[pd.DataFrame] = None)->bool:
 		try:
 			""" Create ontology from books.csv """
-			self.onto = ontology_classification(self.path)
-
 			if not self.onto:
+				self.onto = ontology_classification(self.path)
 				logger.error("unable to get ontology model")
-				raise
 
 			author_cache = {}
 			publisher_cache = {}
@@ -57,7 +73,7 @@ class OntologyBuilder:
 						isbn = row.get("ISBN")
 						if not pd.notna(isbn):
 							continue
-						book_id = f"book_{isbn}"
+						book_id = self.create_book_id(isbn)
 						book = self.onto.Book(book_id)
 						book.isbn = [str(isbn)]
 						if pd.notna(row.get("Book-Title")):
@@ -103,10 +119,9 @@ class OntologyBuilder:
 	def load_ratings_data(self, ratings: Optional[pd.DataFrame] = None)->bool:
 		try:
 			""" Create ontology from books.csv """
-			self.onto = ontology_classification(self.path)
 			if not self.onto:
+				self.onto = ontology_classification(self.path)
 				logger.error("unable to get ontology model")
-				raise
 			with self.onto:
 				logger.info("Ontology model found")
 				if ratings.empty:
@@ -117,7 +132,7 @@ class OntologyBuilder:
 						review_user_id = row.get("User-ID")
 						rating = row.get("Book-Rating")
 						if pd.notna(isbn) and pd.notna(review_user_id) and pd.notna(rating):
-							book_id = f"book_{isbn}"
+							book_id = self.create_book_id(isbn)
 							random_str_id = self.generate_random_string(6)
 							review_id = f'review_{random_str_id}-{review_user_id}'
 							book = self.onto.Book(str(book_id)) 
@@ -146,10 +161,9 @@ class OntologyBuilder:
 	""" Load users.csv data into User, Review"""
 	def load_user_data(self, users: Optional[pd.DataFrame] =None) -> bool:
 		try:
-			self.onto = ontology_classification(self.path)
 			if not self.onto:
+				self.onto = ontology_classification(self.path)
 				logger.error("unable to get ontology model")
-				raise
 
 			with self.onto:
 				for idx, row in users.iterrows():
@@ -157,12 +171,12 @@ class OntologyBuilder:
 						user_id = row.get("User-ID")
 						if pd.notna(user_id):
 							if hasattr(self.onto, f'user_{user_id}'):
-								user = self.onto.User(str(user_id))
-								if not getattr(user, 'user_age') or not self.user.user_age:
+								user = self.onto.User(str(f'user_{user_id}'))
+								if not getattr(user, 'user_age') or not user.user_age:
 									age = row.get("Age")
 									if pd.notna(age):
 										user.user_age = [int(age)]
-								if not getattr(user, 'user_location') or not self.user.user_location:
+								if not getattr(user, 'user_location') or not user.user_location:
 									location = row.get("Location")
 									if pd.notna(location):
 										user.user_location = [str(location)]
@@ -182,20 +196,84 @@ class OntologyBuilder:
 			# Try to load existing ontology
 			if hasattr(self, 'onto') and self.onto is not None:
 				logger.info("[ONTO BUILDER] Using already loaded ontology")
-				return True  # Return bool, not self.onto
+				return True
+			
 			pt = Path(__file__).parent.parent
 			# Try to load from file
 			ontology_path = pt / "books.owl"
 			logger.info(f"[ONTO BUILDER] current path {ontology_path} and type {type(ontology_path)}")
 			
 			if ontology_path.exists():
-				logger.info(f"[ONTO BUILDER] Found ontology at: {ontology_path}")
-				self.onto = get_ontology(f"file://{ontology_path.absolute()}")
-				return True	
+				# Load the ontology
+				file_uri = ontology_path.as_uri() 
+				self.onto = get_ontology(file_uri).load()
+				
+				logger.info(f"[ONTO BUILDER] WORLD WHEN LOADING FROM DIR {id(self.onto.world)}")
+				logger.info(f"[ONTO BUILDER] Ontology base IRI: {self.onto.base_iri}")
+				logger.info(f"[ONTO BUILDER] Ontology name: {self.onto.name}")
+				
+				if self.onto is None:
+					logger.error("[ONTO BUILDER] onto did not load")
+					return False
+				
+				# List all classes to see what we have
+				all_classes = list(self.onto.classes())
+				logger.info(f"[ONTO BUILDER] Found {len(all_classes)} classes")
+				
+				# Find the Book class - it might be in a different namespace
+				book_class = None
+				for cls in all_classes:
+					if cls.name == "Book":
+						book_class = cls
+						break
+				
+				if book_class:
+					logger.info(f"[ONTO BUILDER] Found Book class: {book_class}")
+					try:
+						book_count = len(list(book_class.instances()))
+						logger.info(f"[ONTO BUILDER] Found {book_count} books")
+					except Exception as e:
+						logger.warning(f"[ONTO BUILDER] Could not access Book instances: {e}")
+						return False
+				else:
+					logger.warning("[ONTO BUILDER] No 'Book' class found in ontology")
+					# List available classes for debugging
+					logger.info(f"[ONTO BUILDER] Available classes: {[c.name for c in all_classes]}")
+					return False
+				
+				return True
+			else:
+				logger.warning(f"[ONTO BUILDER] Ontology file does not exist at {ontology_path}")
+				return False
+				
 		except Exception as e:
 			logger.error(f"[load_ontology_from_dir] Failed to load ontology: {e}")
+			import traceback
+			logger.error(traceback.format_exc())
 			return False
 
+
+	def ontology_stats(self) ->dict:
+		try:
+			stats = { 'books': 0, 'authors': 0, 'publishers': 0, 'reviews': 0}
+			if self.onto is None:
+				return None
+			
+			# Find classes by name instead of assuming they're direct attributes
+			for cls in self.onto.classes():
+				if cls.name == 'Book':
+					stats["books"] = len(list(cls.instances()))
+				elif cls.name == 'Author':
+					stats["authors"] = len(list(cls.instances()))
+				elif cls.name == 'Publisher':
+					stats["publishers"] = len(list(cls.instances()))
+				elif cls.name == 'Review':
+					stats["reviews"] = len(list(cls.instances()))
+			
+			return stats
+		except Exception as e:
+			logger.error(f"[ontology_stats] Error raised: {e}")
+			return None
 
 	def save_ontology(self):
 		"""Save ontology to file"""

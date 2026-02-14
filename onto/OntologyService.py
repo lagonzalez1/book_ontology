@@ -46,15 +46,16 @@ class OntologyService:
             model = GeminiModel(self.validator_class, prompt_data)
             llm_response = model._invoke_model()
 
-            logger.info(f"Model invoked results: {llm_response.items()}")
+            logger.info(f"Model invoked results: {llm_response}")
 
             query = self.ontology_query_tool._build_sparql_from_intent(llm_response)
-            
-            logger.info(f"Query build from intent: {query}")
 
+            logger.info(f"_build_sparql_from_intent results: {query}")
+
+            
             result = self.ontology_query_tool._execute_sparql(query)
 
-            logger.info(f"Ontology _execute_sparql:  {result}")
+            logger.info(f"Result:  {result}")
 
         except Exception as e:
             logger.error(f"[query_with_natural_language] error: {e}") 
