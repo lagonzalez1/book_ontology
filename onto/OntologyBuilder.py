@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 	Params: Requires a path to write to.
 """
 class OntologyBuilder:
-	def __init__(self, path: Optional[str] = None ):
-		self.path = path
+	def __init__(self, uri: Optional[str] = None ):
+		self.uri = uri
 		self.world = WorldManager.reset_world()
 		self.onto = None
 
@@ -57,14 +57,12 @@ class OntologyBuilder:
 		try:
 			""" Create ontology from books.csv """
 			if not self.onto:
-				self.onto = ontology_classification(self.path)
-				logger.error("unable to get ontology model")
+				self.onto = ontology_classification(self.uri)
 
 			author_cache = {}
 			publisher_cache = {}
 
 			with self.onto:
-				logger.info("Ontology model found")
 				if books.empty:
 					return False
 				
@@ -120,10 +118,9 @@ class OntologyBuilder:
 		try:
 			""" Create ontology from books.csv """
 			if not self.onto:
-				self.onto = ontology_classification(self.path)
-				logger.error("unable to get ontology model")
+				return False
+			
 			with self.onto:
-				logger.info("Ontology model found")
 				if ratings.empty:
 					return False
 				for idx, row in ratings.iterrows():
@@ -162,25 +159,20 @@ class OntologyBuilder:
 	def load_user_data(self, users: Optional[pd.DataFrame] =None) -> bool:
 		try:
 			if not self.onto:
-				self.onto = ontology_classification(self.path)
-				logger.error("unable to get ontology model")
+				return False
 
 			with self.onto:
 				for idx, row in users.iterrows():
 					try:
 						user_id = row.get("User-ID")
 						if pd.notna(user_id):
-							if hasattr(self.onto, f'user_{user_id}'):
-								user = self.onto.User(str(f'user_{user_id}'))
-								if not getattr(user, 'user_age') or not user.user_age:
-									age = row.get("Age")
-									if pd.notna(age):
-										user.user_age = [int(age)]
-								if not getattr(user, 'user_location') or not user.user_location:
-									location = row.get("Location")
-									if pd.notna(location):
-										user.user_location = [str(location)]
-
+							user = self.onto.User(str(f'user_{user_id}'))
+							age = row.get("Age")
+							if pd.notna(age):
+								user.user_age = [int(age)]
+							location = row.get("Location")
+							if pd.notna(location):
+								user.user_location = [str(location)]
 					except Exception as e:
 						logger.info(f"[load_user_data] unable to add user data on {idx}: {e}")
 			self.save_ontology()
@@ -189,7 +181,8 @@ class OntologyBuilder:
 		except Exception as e:
 			logger.error(f"[ERROR] unable to load_user_data: {e}")
 			return False
-		
+	
+
 	def load_ontology_from_dir(self) -> bool:
 		"""Get existing ontology or create a new one"""
 		try:
@@ -198,52 +191,15 @@ class OntologyBuilder:
 				logger.info("[ONTO BUILDER] Using already loaded ontology")
 				return True
 			
-			pt = Path(__file__).parent.parent
-			# Try to load from file
-			ontology_path = pt / "books.owl"
-			logger.info(f"[ONTO BUILDER] current path {ontology_path} and type {type(ontology_path)}")
-			
-			if ontology_path.exists():
-				# Load the ontology
-				file_uri = ontology_path.as_uri() 
-				self.onto = get_ontology(file_uri).load()
-				
-				logger.info(f"[ONTO BUILDER] WORLD WHEN LOADING FROM DIR {id(self.onto.world)}")
-				logger.info(f"[ONTO BUILDER] Ontology base IRI: {self.onto.base_iri}")
-				logger.info(f"[ONTO BUILDER] Ontology name: {self.onto.name}")
-				
-				if self.onto is None:
-					logger.error("[ONTO BUILDER] onto did not load")
-					return False
-				
-				# List all classes to see what we have
-				all_classes = list(self.onto.classes())
-				logger.info(f"[ONTO BUILDER] Found {len(all_classes)} classes")
-				
-				# Find the Book class - it might be in a different namespace
-				book_class = None
-				for cls in all_classes:
-					if cls.name == "Book":
-						book_class = cls
-						break
-				
-				if book_class:
-					logger.info(f"[ONTO BUILDER] Found Book class: {book_class}")
-					try:
-						book_count = len(list(book_class.instances()))
-						logger.info(f"[ONTO BUILDER] Found {book_count} books")
-					except Exception as e:
-						logger.warning(f"[ONTO BUILDER] Could not access Book instances: {e}")
-						return False
-				else:
-					logger.warning("[ONTO BUILDER] No 'Book' class found in ontology")
-					# List available classes for debugging
-					logger.info(f"[ONTO BUILDER] Available classes: {[c.name for c in all_classes]}")
-					return False
-				
+			path_to_owl = Path(__file__).parent.parent
+			file = path_to_owl / "books.owl"
+
+			try:
+				uri = get_ontology(str(file)).load()
+				self.onto = get_ontology(uri.base_iri)
 				return True
-			else:
-				logger.warning(f"[ONTO BUILDER] Ontology file does not exist at {ontology_path}")
+			except Exception as e:
+				logger.error(f"[ONTO BUILDER] error loading onto from {self.uri}")
 				return False
 				
 		except Exception as e:
@@ -278,9 +234,10 @@ class OntologyBuilder:
 	def save_ontology(self):
 		"""Save ontology to file"""
 		if self.onto:
-			self.onto.save(file=str(self.path), format="rdfxml")
-			logger.info(f"Ontology saved to: {self.path}")
-
+			pt = Path(__file__).parent.parent
+			save_path = pt / "books.owl"
+			self.onto.save(file=str(save_path), format="rdfxml")
+			logger.info(f"Ontology saved to: {self.uri}")
 
 
 

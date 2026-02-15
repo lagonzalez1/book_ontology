@@ -34,13 +34,7 @@ class OntologyVisualizer:
     """ Visualize demo ontology"""
     def create_basic_graph(self, max_nodes: Optional[int] = 100) -> None:
         # Add books as nodes
-        book_class = None
-        all_classes = list(self.onto.classes())
-        for cls in all_classes:
-            if cls.name == "Book":
-                book_class = cls
-                break
-        for book in list(book_class.instances())[:max_nodes//3]:
+        for book in list(self.onto.Book.instances())[:max_nodes//3]:
             
             # Book title
             book_title = book.book_title[0] if hasattr(book, 'book_title') and book.book_title else book.name

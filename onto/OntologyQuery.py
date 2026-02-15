@@ -105,7 +105,7 @@ class OntologyQuery:
             where_clause += "\n        " + "\n        ".join(filters)
         
         sparql = f"""
-        PREFIX onto: <{f"books.owl/books.owl#"}>
+        PREFIX onto: <{f"{self.onto.base_iri}"}>
         SELECT DISTINCT {" ".join(select_vars)} WHERE {{
             {where_clause}
         }}

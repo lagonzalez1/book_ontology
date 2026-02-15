@@ -50,7 +50,7 @@ def main():
 		books = data.load_books_data()
 		
 		""" If ontology exist start the interactive window. """
-		onto_builder = OntologyBuilder(path="books.owl")
+		onto_builder = OntologyBuilder(uri="http://example.com/ontologies/books.owl")
 
 		if onto_builder.load_ontology_from_dir():
 			logger.info(f"Ontology stats: {onto_builder.ontology_stats()}")
