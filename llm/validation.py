@@ -30,6 +30,7 @@ class FilterType(str, Enum):
     SETTING = "setting"
     LANGUAGE = "language"
     ISBN = "isbn"
+    NONE ="none"
 
 class SortByType(str, Enum):
     TITLE = "title"
@@ -70,7 +71,7 @@ class QueryFilter(BaseModel):
 # Main query intent model
 class QueryIntent(BaseModel):
     query_type: QueryType = Field(QueryType.SEARCH_BOOKS, description="Type of query to execute")
-    filters: List[QueryFilter] = Field(default_factory=list, description="List of filters to apply")
+    filters: List[QueryFilter] = Field(FilterType.NONE, description="List of filters to apply")
     sort_by: Optional[SortByType] = Field(SortByType.NONE, description="Field to sort results by")
     sort_order: SortOrderType = Field(SortOrderType.DESC, description="Sort order (ascending/descending)")
     limit: int = Field(20, ge=1, le=100, description="Maximum number of results to return")

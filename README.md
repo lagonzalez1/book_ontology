@@ -66,12 +66,15 @@ Type Safety: Pydantic validation for all query intents and responses
 
 # A few examples of the ontology loaded. 
 
+Interactive shell to view options available, create graphs with max_node amount or natural query.
+![Shell](shell.png)
+
 50 nodes max, full dataset ontology.
 Note the various reviews for books.
-![Ontology preview](ontology_graph_basic.png)
+![Ontology random](ontology_graph_random.png)
 
 Full ontology, with 50 nodes
 ![Ontology preview](ontology_graph_kamada.png)
 
 Sample size of about 50 nodes
-![Ontology preview](assets/images/onto_preview.png)
+![Ontology preview](ontology_graph_spring.png)

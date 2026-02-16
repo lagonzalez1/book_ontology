@@ -78,11 +78,15 @@ class OntologyVisualizer:
                         relation="published_by"
                     )
             if hasattr(book, 'has_review') and book.has_review:
-                for review in book.has_review:
-                    review_name = review.review_user_id[0] if hasattr(review, "review_user_id") and review.review_user_id else review.name
+                for review in list(book.has_review)[:2]:
+                    review_user = review.reviewed_by[0] if hasattr(review, "reviewed_by") and review.reviewed_by else None
+                    if review_user is None:
+                        continue
+                    review_age = review_user.user_age[0] if hasattr(review_user, "user_age") and review_user.user_age else "No Age"
+                    review_location = review_user.user_location[0] if hasattr(review_user, "user_location") and review_user.user_location else "No location"
                     self.graph.add_node(
                         review.name,
-                        label=review_name[:10],
+                        label=f"{review_age}, {review_location}",
                         tier=3,
                         type="user", 
                         color="orange",

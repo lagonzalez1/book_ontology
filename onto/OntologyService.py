@@ -27,8 +27,9 @@ class OntologyService:
             if not self.ontology_query_tool:
                 raise Exception("Query tool not loaded, required for nlp.")
         
-            ## logger.info(f"NLP prompt: {self.ontology_query_tool.get_ontology_schema_for_llm()}")
             query_prompt = self.ontology_query_tool.get_ontology_schema_for_llm()
+            if query_prompt is None:
+                raise Exception("No query prompt ready to feed into llm.")
 
             prompt_config = PromptConfig(
                 template_name="BooksTemplate",
@@ -52,7 +53,6 @@ class OntologyService:
 
             logger.info(f"_build_sparql_from_intent results: {query}")
 
-            
             result = self.ontology_query_tool._execute_sparql(query)
 
             logger.info(f"Result:  {result}")

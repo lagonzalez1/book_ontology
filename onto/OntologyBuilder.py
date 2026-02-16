@@ -123,6 +123,7 @@ class OntologyBuilder:
 			with self.onto:
 				if ratings.empty:
 					return False
+				user_cache = {}
 				for idx, row in ratings.iterrows():
 					try:
 						isbn = row.get("ISBN")
@@ -132,14 +133,18 @@ class OntologyBuilder:
 							book_id = self.create_book_id(isbn)
 							random_str_id = self.generate_random_string(6)
 							review_id = f'review_{random_str_id}-{review_user_id}'
-							book = self.onto.Book(str(book_id)) 
 							user = self.onto.User(f'user_{review_user_id}')
+							
+							if review_user_id not in user_cache:
+								user_cache[review_user_id] = user
+							
+							book = self.onto.Book(str(book_id)) 
+							
 							review = self.onto.Review(review_id)
 							review.rating = [int(rating)]
 							review.review_user_id = [str(review_user_id)]
-							review.reviewed_by = [user]
-							# Since there is a posiblity of habing variouse user reviewing the same book
-							# Need to check if there are any review present to append and set equal to.
+							review.reviewed_by = [user_cache[review_user_id]]
+
 							if book.has_review and len(book.has_review) > 0:
 								current_list = list(book.has_review)
 								current_list.append(review)

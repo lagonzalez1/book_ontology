@@ -57,8 +57,6 @@ def main():
 			logger.info(f"[MAIN] Ontology WORLD: {id(onto_builder.onto.world)}")
 			interactive_menu(onto_builder.onto)
 			return
-		else:
-			return
 		""" Create data into ontology, sample size of 200 just for performance """
 		is_created = onto_builder.create_ontology_from_book_data(books)
 		if not is_created:

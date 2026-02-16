@@ -49,11 +49,12 @@ class OntologyQuery:
         patterns = {
             "type": "?book a onto:Book .",
             "title": "?book onto:book_title ?title .",
-            "author": "?book onto:has_author ?author . ?author onto:author_name ?author_name ."
+            "author": "?book onto:has_author ?author . ?author onto:author_name ?author_name .",
+            "rating": "?book onto:has_review ?review . ?review onto:rating ?rating ."
         }
         
         filters = []
-        select_vars = ["?book", "?title", "?author_name"]
+        select_vars = ["?book", "?title", "?author_name", "?rating"]
         
         # 1. Helper to extract string from Enum or keep as is
         get_val = lambda x: x.value if hasattr(x, 'value') else x
@@ -70,14 +71,12 @@ class OntologyQuery:
                 
             elif f_type == "author":
                 filters.append(f'FILTER(CONTAINS(LCASE(?author_name), LCASE("{value}")))')
-                
             elif f_type == "page_count":
                 patterns["pages"] = "?book onto:page_count ?pages ."
                 filters.append(f"FILTER(?pages {operator} {value})")
-
-            elif f_type == "genre":
-                patterns["genre"] = "?book onto:has_genre ?genre . ?genre onto:genre_name ?g_name ."
-                filters.append(f'FILTER(LCASE(?g_name) = LCASE("{value}"))')
+            elif f_type == "rating":
+                patterns["rating"] = "?review onto:rating ?rating ."
+                filters.append(f"FILTER(?rating {operator} {value})")
 
         # 3. Handle Sorting
         sort_by = get_val(query_intent.get("sort_by", "none"))
@@ -90,6 +89,7 @@ class OntologyQuery:
                 "publication_year": "?year",
                 "page_count": "?pages",
                 "title": "?title",
+                "rating": "?rating",
                 "author_name": "?author_name"
             }
             if sort_by in sort_map:
@@ -174,7 +174,7 @@ class OntologyQuery:
         """Get a clean, safe schema description for LLM prompts"""
         try:
             if not self.onto:
-                return "No ontology loaded."
+                return None
             
             schema_info = []
             
@@ -232,4 +232,4 @@ class OntologyQuery:
             
         except Exception as e:
             logger.error(f"[get_ontology_schema_for_llm] error: {e}")
-            return f"Error: {str(e)}"
+            return None
